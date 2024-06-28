@@ -1,26 +1,36 @@
 import sys
-# 12:20~ 12:51
-def dfs(x,y, max):
-  # dfs의 범위를 벗어나지 않는지 체크
-  if x>=0 and x<num and y>=0 and y<=large:
-    over = False
-  else:
-    over = True
-  # 벗어나지 않을 경우
-  if (not over):
+sys.setrecursionlimit(10000000)
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def DFS(x,y):
+  global tmp,maxLen,n,m
+  lis[x][y] = -1
+  for i in range(4):
+    nx = x + dx[i]
+    ny = y + dy[i]
+    if (0<=nx<n) and (0<=ny<m) and lis[nx][ny] == 1:
+      tmp += 1
+      DFS(nx,ny)
 
   
 
 
-
-input = sys.stdin.readline
-
-num, large = map(int, input().split())
+n,m = map(int, input().split())
 lis = []
-for _ in range(num):
-  tmp = list(map(int, input().split()))
-  lis.append(tmp)
+for _ in range(n):
+  lis.append(list(map(int, input().split())))
+cnt = 0
+maxLen = 0
+tmp = 1
+for i in range(n):
+  for j in range(m):
+    if lis[i][j] == 1:
+      cnt += 1
+      DFS(i,j)
+      maxLen = max(tmp, maxLen)
+      tmp = 1
 
-visited = [[False]*large for _ in range(num)]
-
-res = dfs(0,0,0)
+print(cnt)
+print(maxLen)
